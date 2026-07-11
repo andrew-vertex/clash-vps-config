@@ -7,6 +7,7 @@
 const RULE_BASE = "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release";
 
 const ENABLE_REJECT = true;
+const ENABLE_ADBLOCK = true;
 
 const CUSTOM_DIRECT_RULES = [
   // "DOMAIN-SUFFIX,example.cn,DIRECT",
@@ -24,6 +25,17 @@ function provider(name, behavior) {
     interval: 86400,
     url: RULE_BASE + "/" + name + ".txt",
     path: "./ruleset/loyalsoldier/" + name + ".yaml",
+  };
+}
+
+function advertisingProvider() {
+  return {
+    type: "http",
+    behavior: "domain",
+    format: "yaml",
+    interval: 86400,
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Advertising/Advertising.yaml",
+    path: "./ruleset/blackmatrix7/advertising.yaml",
   };
 }
 
@@ -60,6 +72,10 @@ function main(config) {
     ruleProviders.reject = provider("reject", "domain");
   }
 
+  if (ENABLE_ADBLOCK) {
+    ruleProviders.advertising = advertisingProvider();
+  }
+
   config["rule-providers"] = {
     ...(config["rule-providers"] || {}),
     ...ruleProviders,
@@ -77,6 +93,7 @@ function main(config) {
 
     "RULE-SET,icloud,DIRECT",
     "RULE-SET,apple,DIRECT",
+    ...(ENABLE_ADBLOCK ? ["RULE-SET,advertising,REJECT"] : []),
 
     ...CUSTOM_PROXY_RULES,
 
