@@ -1,0 +1,67 @@
+{
+  "listen": "0.0.0.0",
+  "port": 443,
+  "protocol": "vless",
+  "tag": "in-443-tcp-reality-la",
+  "settings": {
+    "clients": [
+      {
+        "id": "<REPLACE_WITH_NEW_UUID>",
+        "email": "<CLIENT_EMAIL>",
+        "flow": "xtls-rprx-vision",
+        "limitIp": 3,
+        "totalGB": 536870912000,
+        "expiryTime": 0,
+        "enable": true,
+        "tgId": 0,
+        "subId": "<REPLACE_WITH_NEW_SUB_ID>",
+        "comment": "LA Reality Vision",
+        "reset": 0
+      }
+    ],
+    "decryption": "none",
+    "encryption": "none"
+  },
+  "sniffing": {
+    "enabled": true,
+    "destOverride": [
+      "http",
+      "tls",
+      "quic"
+    ],
+    "routeOnly": true
+  },
+  "streamSettings": {
+    "network": "tcp",
+    "tcpSettings": {
+      "acceptProxyProtocol": false,
+      "header": {
+        "type": "none"
+      }
+    },
+    "security": "reality",
+    "realitySettings": {
+      "show": false,
+      "xver": 0,
+      "target": "www.microsoft.com:443",
+      "serverNames": [
+        "www.microsoft.com"
+      ],
+      "privateKey": "<REPLACE_WITH_NEW_REALITY_PRIVATE_KEY>",
+      "minClientVer": "",
+      "maxClientVer": "",
+      "maxTimeDiff": 120000,
+      "shortIds": [
+        "<REPLACE_WITH_NEW_SHORT_ID_16_HEX>"
+      ],
+      "mldsa65Seed": "",
+      "settings": {
+        "publicKey": "<REPLACE_WITH_NEW_REALITY_PUBLIC_KEY>",
+        "fingerprint": "chrome",
+        "serverName": "www.microsoft.com",
+        "spiderX": "/en-us/",
+        "mldsa65Verify": ""
+      }
+    }
+  }
+}

@@ -14,6 +14,8 @@ The Stash override file is safe to publish because it does not contain the 3X-UI
 
 - `stash-loyalsoldier-whitelist.stoverride`: Stash override for iOS. Use this to add Loyalsoldier whitelist rules while keeping remote nodes updated.
 - `mihomo-whitelist.template.yaml`: Full Mihomo/Clash YAML template. Replace `<YOUR_3XUI_CLASH_SUBSCRIPTION_URL>` before using.
+- `3x-ui-la-reality.template.json`: Sanitized 3X-UI VLESS TCP Reality inbound template for a Los Angeles VPS.
+- `3x-ui-la-reality.md`: Notes for generating secrets and applying the LA Reality inbound safely.
 - `clash-verge-rev-whitelist.js`: Clash Verge Rev global script for desktop.
 
 ## Stash Setup
@@ -56,4 +58,4 @@ private -> reject -> icloud/apple DIRECT -> google/proxy PROXY
 
 Do not commit a real 3X-UI subscription URL, UUID, Reality short-id, or private node config.
 
-Use `mihomo-whitelist.template.yaml` as a template. If you need a local full YAML with your real URL, save it as `mihomo-whitelist.local.yaml`; it is ignored by git.
+Use `mihomo-whitelist.template.yaml` and `3x-ui-la-reality.template.json` as templates. If you need local files with real values, save them as `*.local.yaml`, `*.local.json`, or under `secrets/`; they are ignored by git.

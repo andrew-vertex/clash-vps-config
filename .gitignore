@@ -2,6 +2,7 @@
 *.local.yaml
 *.local.yml
 *.local.js
+*.local.json
 secrets/
 providers/
 ruleset/
