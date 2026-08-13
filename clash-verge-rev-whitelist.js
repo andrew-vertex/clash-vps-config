@@ -10,7 +10,9 @@ const ENABLE_REJECT = true;
 const ENABLE_ADBLOCK = true;
 
 const CUSTOM_DIRECT_RULES = [
-  // "DOMAIN-SUFFIX,example.cn,DIRECT",
+  // Personal/work internal services matched by domain keyword.
+  "DOMAIN-KEYWORD,ebaolife,DIRECT",
+  "DOMAIN-KEYWORD,jianbaolife,DIRECT",
 ];
 
 const CUSTOM_PROXY_RULES = [
@@ -31,7 +33,8 @@ function provider(name, behavior) {
 function advertisingProvider() {
   return {
     type: "http",
-    behavior: "domain",
+    // Advertising.yaml contains full Clash rules (for example IP-CIDR), not only domains.
+    behavior: "classical",
     format: "yaml",
     interval: 86400,
     url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Advertising/Advertising.yaml",
