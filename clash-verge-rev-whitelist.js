@@ -45,14 +45,20 @@ function advertisingProvider() {
 function configureDirectDns(config) {
   const dns = config.dns || {};
   const nameserverPolicy = dns["nameserver-policy"] || {};
+  const fakeIpFilter = new Set(dns["fake-ip-filter"] || []);
   const directDns = ["system"];
 
-  // TUN + Fake-IP needs a direct-exit DNS lookup after a domain matches DIRECT.
-  // Use the current network's DNS for split-horizon/internal business domains.
+  // Resolve split-horizon business domains with the current network's DNS.
+  // Returning their real IPs lets macOS send VPN-only addresses through its VPN route,
+  // instead of sending a Fake-IP connection back through the Clash TUN core.
+  fakeIpFilter.add("+.ebaolife.net");
+  fakeIpFilter.add("+.jianbaolife.net");
+
   config.dns = {
     ...dns,
     "direct-nameserver": directDns,
     "direct-nameserver-follow-policy": true,
+    "fake-ip-filter": [...fakeIpFilter],
     "nameserver-policy": {
       ...nameserverPolicy,
       "ebaolife.net": directDns,
