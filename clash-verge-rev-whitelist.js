@@ -10,9 +10,9 @@ const ENABLE_REJECT = true;
 const ENABLE_ADBLOCK = true;
 
 const CUSTOM_DIRECT_RULES = [
-  // Personal/work internal services matched by domain keyword.
-  "DOMAIN-KEYWORD,ebaolife,DIRECT",
-  "DOMAIN-KEYWORD,jianbaolife,DIRECT",
+  // Personal/work domains and every subdomain bypass the proxy.
+  "DOMAIN-SUFFIX,ebaolife.net,DIRECT",
+  "DOMAIN-SUFFIX,jianbaolife.net,DIRECT",
 ];
 
 const CUSTOM_PROXY_RULES = [
@@ -42,6 +42,27 @@ function advertisingProvider() {
   };
 }
 
+function configureDirectDns(config) {
+  const dns = config.dns || {};
+  const nameserverPolicy = dns["nameserver-policy"] || {};
+  const directDns = ["system"];
+
+  // TUN + Fake-IP needs a direct-exit DNS lookup after a domain matches DIRECT.
+  // Use the current network's DNS for split-horizon/internal business domains.
+  config.dns = {
+    ...dns,
+    "direct-nameserver": directDns,
+    "direct-nameserver-follow-policy": true,
+    "nameserver-policy": {
+      ...nameserverPolicy,
+      "ebaolife.net": directDns,
+      "+.ebaolife.net": directDns,
+      "jianbaolife.net": directDns,
+      "+.jianbaolife.net": directDns,
+    },
+  };
+}
+
 function main(config) {
   const groups = config["proxy-groups"] || [];
   const hasProxyGroup = groups.some((group) => group.name === "PROXY");
@@ -57,6 +78,8 @@ function main(config) {
       config["proxy-groups"] = groups;
     }
   }
+
+  configureDirectDns(config);
 
   const ruleProviders = {
     applications: provider("applications", "classical"),
